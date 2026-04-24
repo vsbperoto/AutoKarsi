@@ -44,6 +44,7 @@ export function Checkbox({ checked, onChange, label }: { checked: boolean, onCha
     <label className={`cursor-pointer p-3 rounded-lg flex items-center space-x-3 transition-colors border ${
       checked ? 'border-blue-100 bg-blue-50 border-l-4 border-l-blue-600' : 'border-slate-100 bg-white hover:bg-slate-50'
     }`}>
+      <input type="checkbox" className="sr-only" checked={checked} onChange={(e) => onChange(e.target.checked)} />
       <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border-2 ${
         checked ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-300 bg-white'
       }`}>
@@ -63,6 +64,7 @@ export function Radio({ checked, onChange, label }: { checked: boolean, onChange
     <label className={`cursor-pointer p-3 rounded-lg flex items-center space-x-3 transition-colors border ${
       checked ? 'border-blue-100 bg-blue-50 border-l-4 border-l-blue-600' : 'border-slate-100 bg-white hover:bg-slate-50'
     }`}>
+      <input type="radio" className="sr-only" checked={checked} onChange={onChange} />
       <div className={`w-4 h-4 rounded-full flex-shrink-0 ${
         checked ? 'bg-blue-600 border-2 border-white ring-1 ring-blue-600' : 'border-2 border-slate-300'
       }`} />

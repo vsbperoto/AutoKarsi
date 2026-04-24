@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Download, FileDown, Copy, CheckCircle2, AlertCircle, Plus, Trash2, CloudUpload, Loader2 } from 'lucide-react';
 import { INITIAL_BRIEF, CampaignBrief, Priority, Product, HeroInsight } from './types';
 import { Card, Label, Input, Textarea, Helper, Checkbox, Radio, Button } from './components/ui';
@@ -6,10 +6,23 @@ import { generateMarkdown } from './lib/export';
 import { saveBriefToDatabase } from './lib/firebase-service';
 
 export default function App() {
-  const [brief, setBrief] = useState<CampaignBrief>(INITIAL_BRIEF);
+  const [brief, setBrief] = useState<CampaignBrief>(() => {
+    try {
+      const saved = localStorage.getItem('autokrasi_brief_v1');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.error("Local storage error", e);
+    }
+    return INITIAL_BRIEF;
+  });
+  
   const [copied, setCopied] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  useEffect(() => {
+    localStorage.setItem('autokrasi_brief_v1', JSON.stringify(brief));
+  }, [brief]);
 
   const updateBrief = (updates: Partial<CampaignBrief>) => {
     setBrief(prev => ({ ...prev, ...updates }));
